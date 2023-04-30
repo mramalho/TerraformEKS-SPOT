@@ -1,14 +1,14 @@
 module "eks"{
   source = "terraform-aws-modules/eks/aws"
-  version         = "<18"
+  version         = "16"
   cluster_name = var.clustername
-  cluster_version = "1.21"
+  cluster_version = "1.24"
   subnets = module.vpc.private_subnets
   enable_irsa = true
   vpc_id = module.vpc.vpc_id
 
   workers_group_defaults = {
-    root_volume_type = "gp2"
+    root_volume_type = "gp3"
   }
 
   worker_groups_launch_template = [
@@ -21,16 +21,7 @@ module "eks"{
       kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
     },
   ]
-  worker_groups = [
-    {
-      name                          = "worker-group-1"
-      instance_type                 = var.ondemand_instance_type
-      additional_userdata           = "echo foo bar"
-      asg_desired_capacity          = var.ondemand_desired_size
-      kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=ondemand"
-      additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
-    }
-  ]
+  
 }
 
 data "aws_eks_cluster" "cluster" {

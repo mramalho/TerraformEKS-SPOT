@@ -1,5 +1,5 @@
-resource "aws_security_group" "worker_group_mgmt_one" {
-  name_prefix = "worker_group_mgmt_one"
+resource "aws_security_group" "node-01" {
+  name_prefix = "node-01"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -13,8 +13,8 @@ resource "aws_security_group" "worker_group_mgmt_one" {
   }
 }
 
-resource "aws_security_group" "worker_group_mgmt_two" {
-  name_prefix = "worker_group_mgmt_two"
+resource "aws_security_group" "node-02" {
+  name_prefix = "node-02"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
